@@ -1,0 +1,42 @@
+services:
+  rathena_mysql:
+    build:
+      context: ./rathena_mysql
+      dockerfile: Dockerfile
+    image: rathenadb:local
+    container_name: rathena_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mysql
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - mynet
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: rathena_mysql
+      PMA_USER: user
+      PMA_PASSWORD: userpassword
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
+    depends_on:
+      - rathena_mysql
+    networks:
+      - mynet
+
+volumes:
+  mysql_data:
+
+networks:
+  mynet:
+    driver: bridge
