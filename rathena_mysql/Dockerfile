@@ -1,4 +1,4 @@
-FROM mariadb:10.5-alpine
+FROM mariadb:latest
 
 COPY ./initdb /docker-entrypoint-initdb.d/
 
