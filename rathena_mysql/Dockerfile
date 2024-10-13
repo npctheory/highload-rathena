@@ -1,4 +1,4 @@
-FROM mysql:8.0
+FROM mariadb:10.5-alpine
 
 COPY ./initdb /docker-entrypoint-initdb.d/
 
